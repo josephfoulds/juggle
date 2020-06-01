@@ -7,6 +7,8 @@ Project is currently implemented using SQLite as in-built relational database st
 
 Blogging engine is designed in Django using a RESTful API to access and delete associated resources.
 
+Please note, in the interests of speeding up assessment time I have preincluded a SQLite database with some basic blogs, posts, and comments added so this does not need to be populated by the reviewer.
+
 _nb: No authentication is performed on the API in line with project spec._
 
 ## Installation
@@ -23,6 +25,7 @@ Congratulations, you are now running Juggle Blogs. The project is exposed via po
 
 ## Internal API
 All APIs are designed RESTful-y and use standard HTTP methods (GET, POST, DELETE) for updating and fetching resource information
+
 ### Engine Resources
 * `GET /` - Display all blogs
 
@@ -71,3 +74,6 @@ All APIs are designed RESTful-y and use standard HTTP methods (GET, POST, DELETE
 
 ### RESTful expansion
 * API design allows for easy integration of additional functionality such as PATCH HTTP methods for updating blog/post/comment information
+
+### Pagination
+* Blogs, Posts, and Comments are currently serving all from database queries, which is unscalable. A better implementation would be to leverage pagination, but there was not sufficient time to implement this.

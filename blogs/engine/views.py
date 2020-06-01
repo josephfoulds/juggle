@@ -57,6 +57,27 @@ class Blog(View):
         # Return HTTP200
         return(HttpResponse())
 
+    # DELETE /blog/[BLOG_ID]/ - Delete blog
+    def delete(self, request, blog_id=None):
+        # Validation functions for DELETE, fail with an HTTP400
+        if not blog_id:
+            return HttpResponse(status=400)
+
+        # Error handling for server errors
+        try:
+            # Identify the blog from passed in blog ID
+            b = BlogModel.objects.get(id=blog_id)
+
+            # Create a new blog and delete it
+            b.delete()
+
+        except Exception as e:
+            # Return HTTP500 on server error
+            return HttpResponse(status=500)
+
+        # Return HTTP200
+        return(HttpResponse())
+
     # Exempt requests from inbuilt CSRF detection, neccessary for rapid MVP API testing
     # nb: This should not be integrated in production unless security procedures are added to mitigate CSRF vulnerabilities
     @method_decorator(csrf_exempt)

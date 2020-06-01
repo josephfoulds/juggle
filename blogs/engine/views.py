@@ -120,7 +120,7 @@ class Post(View):
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
 
-            # Create a new post and save it
+            # Create a new blog and save it
             p = PostModel(blog=b, content=content, name=name)
             p.save()
 
@@ -160,7 +160,6 @@ class Post(View):
 
 # View for handling comment resources
 class Comment(View):
-
     # POST /blog/[BLOG_ID]/post/[POST_ID]/comment - Create new comment
     def post(self, request, blog_id=None, post_id=None, comment_id=None):
         content = request.POST.get("content", "")

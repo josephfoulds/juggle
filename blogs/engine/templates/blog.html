@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Juggle Blogs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Juggle Blogs</h1>
+  <h3>{{blog.name}}</h3>
+</div>
+  
+<div class="container">
+  <h1>Post List</h1>
+  <div id="posts">
+    {% if posts %}
+        <ul>
+        {% for post in posts %}
+          <div class="row">
+            <h3><a href="./post/{{post.id}}/">{{post.name}}</a></h3>
+          </div>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>This blog has no posts.</p>
+    {% endif %}
+  </div>
+</div>
+
+</body>
+</html>

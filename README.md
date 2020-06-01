@@ -10,7 +10,16 @@ Blogging engine is designed in Django using a RESTful API to access and delete a
 _nb: No authentication is performed on the API in line with project spec._
 
 ## Installation
-[TODO]
+1) Install requirements via pip
+* `pip install -r requirements.txt`
+
+2) Navigate to the project directory
+* `cd blogs`
+
+3) Run the Python-Django development server
+* `python manage.py runserver`
+
+Congratulations, you are now running Juggle Blogs. The project is exposed via port 8000 on localhost as per Django default and accessible at [http://127.0.0.1:8000](http://127.0.0.1:8000/)
 
 ## Internal API
 All APIs are designed RESTful-y and use standard HTTP methods (GET, POST, DELETE) for updating and fetching resource information

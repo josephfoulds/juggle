@@ -11,8 +11,8 @@ from django.utils.decorators import method_decorator
 
 # Index handling
 def index(request):
-    # GET / - Display all blogs
 
+    # GET / - Display all blogs
     # Retrieve all the blogs from the database and return them to the index template
     blogs = BlogModel.objects.all()
     context = {'blogs': blogs}
@@ -69,7 +69,7 @@ class Blog(View):
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
 
-            # Create a new blog and delete it
+            # Delete the blog
             b.delete()
 
         except Exception as e:
@@ -93,7 +93,7 @@ class Post(View):
         if not blog_id or not post_id:
             return HttpResponse(status=404)
 
-        # Identify the post from passed in blog ID
+        # Identify the post and blog from passed in post ID / blog ID
         try:
             b = BlogModel.objects.get(id=blog_id)
             p = PostModel.objects.get(id=post_id, blog=b)
@@ -101,8 +101,14 @@ class Post(View):
             # Return HTTP500 on server error
             return HttpResponse(status=404)
 
-        c = CommentModel.objects.filter(post = p)
+        # Identify any comments associated with the post
+        try:
+            c = CommentModel.objects.filter(post = p)
+        except Exception as e:
+            # Return HTTP500 on server error
+            return HttpResponse(status=500)
 
+        # Return the templated post and context
         context = {'post': p, 'comments':c, 'blog':b}
         return render(request, 'post.html', context=context)
 
@@ -120,7 +126,7 @@ class Post(View):
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
 
-            # Create a new blog and save it
+            # Create a new post and save it
             p = PostModel(blog=b, content=content, name=name)
             p.save()
 
@@ -141,8 +147,11 @@ class Post(View):
         try:
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
+
+            # Identify the post from passed in post ID
             p = PostModel.objects.get(id=post_id, blog=b)
-            # Create a new blog and delete it
+
+            # Delete the post
             p.delete()
 
         except Exception as e:
@@ -173,6 +182,8 @@ class Comment(View):
         try:
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
+
+            # Identify the post from the passed in post ID
             p = PostModel.objects.get(id=post_id, blog=b)
 
             # Create a new comment and save it
@@ -196,9 +207,14 @@ class Comment(View):
         try:
             # Identify the blog from passed in blog ID
             b = BlogModel.objects.get(id=blog_id)
+
+            # Identify the blog from passed in post ID
             p = PostModel.objects.get(id=post_id, blog=b)
+
+            # Identify the comment from the passed in comment ID
             c = CommentModel.objects.get(id=comment_id, post=p)
-            # Delete comment
+
+            # Delete the comment
             c.delete()
 
         except Exception as e:

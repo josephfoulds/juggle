@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Juggle Blogs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Juggle Blogs</h1>
+  <h3>{{blog.name}} - {{post.name}}</h3>
+</div>
+  
+<div class="container">
+  <div id="post">
+    <h1>{{post.name}}</h1>
+    <p>
+      {{post.content}}
+    </p>
+  </div>
+  <div id="comments">
+    <h3>Comments</h3>
+    {% if comments %}
+        <ul>
+        {% for comment in comments %}
+          <div class="row">
+            <h4>{{comment.author}}</h4>
+            <p>
+              {{comment.content}}
+            </p>
+          </div>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no comments</p>
+    {% endif %}
+  </div>
+</div>
+
+</body>
+</html>

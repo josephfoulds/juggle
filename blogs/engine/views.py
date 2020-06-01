@@ -86,9 +86,39 @@ class Blog(View):
 
 # View for handling post resources
 class Post(View):
-
-    def get(self, request, blog_id=None, post_id=None):
+    def get(self, request, blog_id=None, post_id=None, comment_id=None):
         return HttpResponse("Not yet implemented")
+        
+    # POST /blog/[BLOG_ID]/post/ - Create new post
+    def post(self, request, blog_id=None, post_id=None):
+        content = request.POST.get("content", "")
+        name    = request.POST.get("name", "")
+
+        # Validation functions for POST data, fail with an HTTP400
+        if not name or not content or post_id:
+            return HttpResponse(status=400)
+
+        # Error handling for server errors
+        try:
+            # Identify the blog from passed in blog ID
+            b = BlogModel.objects.get(id=blog_id)
+
+            # Create a new blog and save it
+            p = PostModel(blog=b, content=content, name=name)
+            p.save()
+
+        except Exception as e:
+            # Return HTTP500 on server error
+            return HttpResponse(status=500)
+
+        # Return HTTP200
+        return(HttpResponse())
+
+    # Exempt requests from inbuilt CSRF detection, neccessary for rapid MVP API testing
+    # nb: This should not be integrated in production unless security procedures are added to mitigate CSRF vulnerabilities
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Post, self).dispatch(request, *args, **kwargs)
 
 # View for handling comment resources
 class Comment(View):
